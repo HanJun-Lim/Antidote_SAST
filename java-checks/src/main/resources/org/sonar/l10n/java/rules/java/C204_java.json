@@ -1,0 +1,13 @@
+{
+  "title": "취약한 암호화 알고리즘 사용",
+  "type": "VULNERABILITY",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "bad-practice"
+  ],
+  "defaultSeverity": "Critical"
+}

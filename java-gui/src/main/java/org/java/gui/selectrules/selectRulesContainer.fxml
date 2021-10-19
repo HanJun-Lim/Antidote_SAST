@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.gui.selectrules.selectRulesController">
+   <children>
+      <ProgressBar fx:id="verifyingProgressBar" layoutX="14.0" layoutY="571.0" prefHeight="20.0" prefWidth="775.0" progress="0.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="11.0" />
+      <Label fx:id="verifyingProgressLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="385.0" layoutY="572.0" text="0%" textAlignment="CENTER" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="385.0" AnchorPane.rightAnchor="396.5" />
+      <SplitPane dividerPositions="0.3" layoutX="6.0" layoutY="10.0" prefHeight="553.0" prefWidth="791.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="10.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="541.0" prefWidth="224.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <Accordion fx:id="accordionRules" layoutX="9.0" layoutY="27.0" prefHeight="519.0" prefWidth="194.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="27.0" />
+                  <CheckBox fx:id="checkBoxAllCheck" layoutX="14.0" layoutY="5.0" mnemonicParsing="false" text="전체선택" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="5.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="541.0" prefWidth="569.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <WebView fx:id="ruleHtmlDescription" layoutX="5.0" layoutY="7.0" prefHeight="431.0" prefWidth="559.0" AnchorPane.bottomAnchor="113.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="7.0">
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </WebView>
+                  <Label fx:id="choicedRules" layoutX="5.0" layoutY="444.0" text="선택된 룰 (0)" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="8.0" />
+                  <ListView fx:id="ruleSelectionList" layoutY="463.0" prefHeight="82.0" prefWidth="420.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="149.0" />
+                  <Button fx:id="startButton" layoutX="433.0" layoutY="463.0" mnemonicParsing="false" onAction="#startButtonHandle" prefHeight="82.0" prefWidth="131.0" text="분석 시작" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="5.0">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

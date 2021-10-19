@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+	width: 96%;
+	background-color: white;
+	font-size: 14px;
+	font-family: "돋움";
+    padding: 0;
+}
+
+h1 {
+  color: black;
+  text-align: left;
+  font-weight: bold;
+}
+
+p {
+	font-size: 16px;
+	background-color: rgba(210, 210, 210);
+}
+
+pre {
+	display: block;
+	white-space: pre-wrap;
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- 주제목 및 부제목 -->
+<!-- 주 제목은 룰 이름, 부 제목은 "해당 룰이 속한 카테고리 - 세부 카테고리"로 한다. -->
+
+<h1>종료되지 않는 반복문 또는 재귀함수</h1>
+시간 및 상태
+<hr><br>
+
+
+<!-- 1. 개요 -->
+
+<p>개요</p>
+재귀의 순환횟수를 제어하지 못하여 할당된 메모리나 프로그램 스택 등의 자원을 과다하게 사용하면
+위험하다. 대부분의 경우, 귀납 조건(Base Case)이 없는 재귀함수는 무한 루프에 빠져 들게 되고
+자원고갈을 유발함으로써 시스템의 정상적인 서비스를 제공할 수 없게 한다.
+<br><br><br>
+
+
+<!-- 2. 보안 대책 -->
+
+<p>보안 대책</p>
+모든 재귀 호출시, 재귀 호출 횟수를 제한하거나, 초기값을 설정(상수)하여 재귀 호출을 제한해야 한다.
+<br><br><br>
+
+
+<!-- 3. 코드 예제 -->
+
+<p>코드 예제</p>
+factorial 함수는 함수 내부에서 자신을 호출하는 재귀함수로, 재귀문을 빠져 나오는 조건을 정의하고
+있지 않아 무한 재귀에 빠져 시스템 장애를 유발할 수 있다.
+<br><br>
+
+<!-- 3-1. 안전하지 않은 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #F5A9A9 -->
+<!-- 	제목 패딩 : top과 bottom 각각 5픽셀, left와 right 각각 10픽셀 -->
+<!-- 	코드는 <pre><code> 태그 내부에 삽입하며, 코드 색 변경은 <span> 태그를 이용하여 변경 -->
+
+<span style = "background-color:#F5A9A9; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전하지 않은 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#F5A9A9">
+<pre><code>
+...
+public int factorial(int n) {
+	<span style = "color:red">return n * factorial(n - 1);</span>
+}
+...
+</code></pre>
+</div>
+
+
+<br><br>
+재귀 함수를 구현할 때는 아래와 같이 재귀문을 빠져 나오는 조건인 귀납조건(Base case)을 반드시
+구현해야 한다.
+<br><br>
+
+
+<!-- 3-2. 안전한 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #82E0AA -->
+<!-- 	나머지 사항은 3-1. 안전하지 않은 코드 와 같음 -->
+
+<span style = "background-color:#82E0AA; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전한 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#82E0AA">
+<pre><code>
+...
+public int factorial(int n) {
+	<span style = "color:green">//재귀함수 사용시에는 아래와 같이 탈출 조건을 사용해야 한다.</span>
+	<span style = "color:blue">if (i &lt;= 1) {
+		return 1;
+	}</span>
+
+	return n * factorial(n - 1);
+}
+...
+</code></pre>
+</div>
+
+
+</body>
+</html>

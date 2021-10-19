@@ -1,0 +1,13 @@
+{
+  "title": "종료되지 않는 반복문 또는 재귀함수",
+  "type": "BUG",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "bad-practice"
+  ],
+  "defaultSeverity": "Minor"
+}

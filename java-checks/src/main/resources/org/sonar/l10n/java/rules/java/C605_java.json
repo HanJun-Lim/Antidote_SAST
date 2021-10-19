@@ -1,0 +1,13 @@
+{
+  "title": "Private 배열에 Public 데이터 할당",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "bad-practice"
+  ],
+  "defaultSeverity": "Major"
+}

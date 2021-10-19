@@ -1,0 +1,22 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="codemirror.css">
+<script src="codemirror.js"></script>
+<script src="clike.js"></script>
+</head>
+<body>
+<form><textarea id="code" name="code">
+${CODE}
+</textarea></form>
+<script>
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+lineNumbers: true,
+matchBrackets: true,
+readOnly: true,
+mode: "text/x-java"
+});
+editor.markText({line: ${START_LINE}, ch: ${START_POINT}}, {line: ${END_LINE}, ch: ${END_POINT}}, {css: "background-color: ${COLOR}"});
+</script>
+</body>
+</html>

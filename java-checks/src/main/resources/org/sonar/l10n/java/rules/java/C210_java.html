@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+	width: 96%;
+	background-color: white;
+	font-size: 14px;
+	font-family: "돋움";
+    padding: 0;
+}
+
+h1 {
+  color: black;
+  text-align: left;
+  font-weight: bold;
+}
+
+p {
+	font-size: 16px;
+	background-color: rgba(210, 210, 210);
+}
+
+pre {
+	display: block;
+	white-space: pre-wrap;
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- 주제목 및 부제목 -->
+<!-- 주 제목은 룰 이름, 부 제목은 "해당 룰이 속한 카테고리 - 세부 카테고리"로 한다. -->
+
+<h1>하드코드된 암호화 키</h1>
+보안 기능
+<hr><br>
+
+
+<!-- 1. 개요 -->
+
+<p>개요</p>
+코드 내부에 하드코드된 암호화 키를 사용하여 암호화를 수행하면 암호화된 정보가 유출될 가능성이
+높아진다. 많은 SW 개발자들이 코드 내부의 고정된 암호키의 해시를 계산하여 저장하면 암호키를
+악의적인 공격자로부터 보호할 수 있다고 믿고 있다. 그러나 일부 해시함수들이 역계산이 가능하며,
+무차별 대입(Brute-Force) 공격에는 취약하다는 것을 고려해야만 한다.
+<br><br><br>
+
+
+<!-- 2. 보안 대책 -->
+
+<p>보안 대책</p>
+암호화 수행시, 상수가 아닌 암호화 키를 사용하도록 설계해야 한다. 또한, 암호화되었더라도 소스
+코드 내부에 상수형태의 암호키를 저장하여 사용해서는 안된다
+<br><br><br>
+
+
+<!-- 3. 코드 예제 -->
+
+<p>코드 예제</p>
+소스 코드 내부에 암호화 키를 상수 형태로 하드코딩하여 사용하면 악의적인 공격자에게 암호화 키가
+노출될 위협이 있다.
+<br><br>
+
+<!-- 3-1. 안전하지 않은 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #F5A9A9 -->
+<!-- 	제목 패딩 : top과 bottom 각각 5픽셀, left와 right 각각 10픽셀 -->
+<!-- 	코드는 <pre><code> 태그 내부에 삽입하며, 코드 색 변경은 <span> 태그를 이용하여 변경 -->
+
+<span style = "background-color:#F5A9A9; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전하지 않은 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#F5A9A9">
+<pre><code>
+import javax.crypto.KeyGenerator;
+import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.Cipher;
+……
+public String encriptString(String usr) {
+	<span style = "color:green">//암호화 키를 소스코드 내부에 사용하는 것은 안전하지 않다.</span>
+	<span style = "color:red">String key = "22df3023sf~2;asn!@#/>as";</span>
+	if (key != null) {
+	byte[] bToEncrypt = usr.getBytes("UTF-8");
+	SecretKeySpec sKeySpec = new SecretKeySpec(key.getBytes(), "AES");
+</code></pre>
+</div>
+
+
+<br><br>
+암호화 과정에 사용하는 암호화 키는 외부 공간(파일)에 안전한 방식으로 암호화하여 보관해야 하며,
+암호화된 암호화 키는 복호화하여 사용한다.
+<br><br>
+
+
+<!-- 3-2. 안전한 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #82E0AA -->
+<!-- 	나머지 사항은 3-1. 안전하지 않은 코드 와 같음 -->
+
+<span style = "background-color:#82E0AA; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전한 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#82E0AA">
+<pre><code>
+import javax.crypto.KeyGenerator;
+import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.Cipher;
+……
+public String encriptString(String usr) {
+	<span style = "color:green">//암호화 키는 외부 파일에서 암호화 된 형태로 저장하고, 사용시 복호화 한다.</span>
+	<span style = "color:blue">String key = getPassword("./password.ini");
+	key = decrypt(key);</span>
+	if (key != null) {
+	byte[] bToEncrypt = usr.getBytes("UTF-8");
+	SecretKeySpec sKeySpec = new SecretKeySpec(key.getBytes(), "AES");
+</code></pre>
+</div>
+
+
+</body>
+</html>

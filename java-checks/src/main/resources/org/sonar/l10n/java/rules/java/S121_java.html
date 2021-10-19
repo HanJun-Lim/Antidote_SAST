@@ -1,0 +1,20 @@
+<p>While not technically incorrect, the omission of curly braces can be misleading, and may lead to the introduction of errors during maintenance.</p>
+<h2>Noncompliant Code Example</h2>
+<pre>
+if (condition)  // Noncompliant
+  executeSomething();
+</pre>
+<h2>Compliant Solution</h2>
+<pre>
+if (condition) {
+  executeSomething();
+}
+</pre>
+<h2>See</h2>
+<ul>
+  <li> <a href="https://www.securecoding.cert.org/confluence/x/1QGMAg">CERT, EXP19-C.</a> - Use braces for the body of an if, for, or while statement
+  </li>
+  <li> <a href="https://www.securecoding.cert.org/confluence/x/3wHEAw">CERT, EXP52-J.</a> - Use braces for the body of an if, for, or while statement
+  </li>
+</ul>
+

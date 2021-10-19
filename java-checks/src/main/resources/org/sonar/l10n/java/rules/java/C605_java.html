@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+	width: 96%;
+	background-color: white;
+	font-size: 14px;
+	font-family: "돋움";
+    padding: 0;
+}
+
+h1 {
+  color: black;
+  text-align: left;
+  font-weight: bold;
+}
+
+p {
+	font-size: 16px;
+	background-color: rgba(210, 210, 210);
+}
+
+pre {
+	display: block;
+	white-space: pre-wrap;
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- 주제목 및 부제목 -->
+<!-- 주 제목은 룰 이름, 부 제목은 "해당 룰이 속한 카테고리 - 세부 카테고리"로 한다. -->
+
+<h1>Private 배열에 Public 데이터 할당</h1>
+캡슐화
+<hr><br>
+
+
+<!-- 1. 개요 -->
+
+<p>개요</p>
+public으로 선언된 메소드의 인자가 private선언된 배열에 저장되면, private배열을 외부에서 접근
+하여 배열수정과 객체 속성변경이 가능해진다.
+<br><br><br>
+
+
+<!-- 2. 보안 대책 -->
+
+<p>보안 대책</p>
+public으로 선언된 메서드의 인자를 private선언된 배열로 저장되지 않도록 한다. 인자로 들어온 배열의
+복사본을 생성하고 clone() 메소드를 통해 복사된 원소를 저장하도록 하여 private변수에 할당하여
+private선언된 배열과 객체속성에 대한 의도하지 않게 수정되는 것을 방지한다. 만약 배열 객체의 원소
+가 String 타입 등과 같이 변경이 되지 않는 경우에는 인자로 들어온 배열의 복사본을 생성하여 할당
+한다.
+<br><br><br>
+
+
+<!-- 3. 코드 예제 -->
+
+<p>코드 예제</p>
+아래의 코드는 멤버 변수 userRoles는 private로 선언되었지만 public으로 선언된 setUserRoles
+메소드를 통해 인자가 할당되어 배열의 원소를 외부에서 변경할 수 있다. 이를 통해 의도하지 않은
+배열과 원소에 대한 객체속성 수정이 발생할 수 있다.
+<br><br>
+
+<!-- 3-1. 안전하지 않은 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #F5A9A9 -->
+<!-- 	제목 패딩 : top과 bottom 각각 5픽셀, left와 right 각각 10픽셀 -->
+<!-- 	코드는 <pre><code> 태그 내부에 삽입하며, 코드 색 변경은 <span> 태그를 이용하여 변경 -->
+
+<span style = "background-color:#F5A9A9; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전하지 않은 코드의 예 (배열의 원소가 일반객체일 경우) </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#F5A9A9">
+<pre><code>
+<span style = "color:green">//userRoles 필드는 private이지만, public인 setUserRoles()를 통해 외부의 배열이 할당되면, 사실상 public 필드가 된다.</span>
+<span style = "color:red">private UserRole[] userRoles;</span>
+<span style = "color:red">public</span> void setUserRoles(<span style = "color:red">UserRole[] userRoles</span>) {
+	<span style = "color:red">this.userRoles = userRoles;</span>
+}
+</code></pre>
+</div>
+
+<br><br>
+인자로 들어온 배열의 복사본을 생성하고 clone() 메소드를 통해 복사된 원소를 저장하도록 하여
+private변수에 할당하면 private으로 할당된 배열과 원소에 대한 의도하지 않은 수정을 방지 할 수
+있다.
+<br><br>
+
+<!-- 3-2. 안전한 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #82E0AA -->
+<!-- 	나머지 사항은 3-1. 안전하지 않은 코드 와 같음 -->
+
+<span style = "background-color:#82E0AA; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전한 코드의 예 (배열의 원소가 일반객체일 경우) </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#82E0AA">
+<pre><code>
+<span style = "color:green">//객체가 클래스의 private member를 수정하지 않도록 한다.</span>
+private UserRole[] userRoles;
+public void setUserRoles(UserRole[] userRoles) {
+	<span style = "color:blue">this.userRoles = new UserRole[userRoles.length];
+	for (int i = 0; i &lt; userRoles.length; ++i) 
+		this.userRoles[i] = userRoles[i].clone();</span>
+}
+</code></pre>
+</div>
+
+
+<br><br>
+아래의 코드는 멤버 변수 userRoles는 private로 선언되었지만 public으로 선언된 setUserRoles
+메소드를 통해 인자가 할당되어 배열의 원소를 외부에서 변경할 수 있다. 이를 통해 의도하지 않은
+배열에 대한 수정이 발생할 수 있다.
+<br><br>
+
+
+<!-- 3-1. 안전하지 않은 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #F5A9A9 -->
+<!-- 	제목 패딩 : top과 bottom 각각 5픽셀, left와 right 각각 10픽셀 -->
+<!-- 	코드는 <pre><code> 태그 내부에 삽입하며, 코드 색 변경은 <span> 태그를 이용하여 변경 -->
+
+<span style = "background-color:#F5A9A9; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전하지 않은 코드의 예 (배열의 원소가 String 타입 등과 같이 수정이 불가능한 경우) </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#F5A9A9">
+<pre><code>
+<span style = "color:green">//userRoles 필드는 private이지만, public인 setUserRoles()를 통해 외부의 배열이 할당되면, 사실상 public 필드가 된다.</span>
+<span style = "color:red">private String[] userRoles;</span>
+<span style = "color:red">public</span> void setUserRoles(<span style = "color:red">String[] userRoles</span>) {
+	<span style = "color:red">this.userRoles = userRoles;</span>
+}
+</code></pre>
+</div>
+
+
+<br><br>
+인자로 들어온 배열의 복사본을 생성하여 private변수에 할당하면 private으로 할당된 배열에 대한
+의도하지 않은 수정을 방지 할 수 있다.
+<br><br>
+
+<!-- 3-2. 안전한 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #82E0AA -->
+<!-- 	나머지 사항은 3-1. 안전하지 않은 코드 와 같음 -->
+
+<span style = "background-color:#82E0AA; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전한 코드의 예 (배열의 원소가 String 타입 등과 같이 수정이 불가능한 경우) </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#82E0AA">
+<pre><code>
+<span style = "color:green">//객체가 클래스의 private member를 수정하지 않도록 한다.</span>
+private String[] userRoles;
+public void setUserRoles(String[] userRoles) {
+	this.userRoles = new String[userRoles.length];
+	<span style = "color:blue">for (int i = 0; i &lt; userRoles.length; ++i)
+		this.userRoles[i] = userRoles[i];</span>
+}
+</code></pre>
+</div>
+
+
+</body>
+</html>

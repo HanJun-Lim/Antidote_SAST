@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+	width: 96%;
+	background-color: white;
+	font-size: 14px;
+	font-family: "돋움";
+    padding: 0;
+}
+
+h1 {
+  color: black;
+  text-align: left;
+  font-weight: bold;
+}
+
+p {
+	font-size: 16px;
+	background-color: rgba(210, 210, 210);
+}
+
+pre {
+	display: block;
+	white-space: pre-wrap;
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- 주제목 및 부제목 -->
+<!-- 주 제목은 룰 이름, 부 제목은 "해당 룰이 속한 카테고리 - 세부 카테고리"로 한다. -->
+
+<h1>사용자 하드디스크에 저장되는 쿠키를 통한 정보노출</h1>
+보안 기능
+<hr><br>
+
+
+<!-- 1. 개요 -->
+
+<p>개요</p>
+대부분의 웹 응용프로그램에서 쿠키는 메모리에 상주하며, 브라우저의 실행이 종료되면 사라진다.
+프로그래머가 원하는 경우, 쿠키를 디스크에 저장할 수 있으며, 다음 브라우저 세션이 시작되었을 때
+메모리에 로드된다. 개인정보, 인증정보 등이 이와 같은 영속적인 쿠키(Persistent Cookie)에 저장
+된다면, 공격자는 쿠키에 접근할 수 있는 보다 많은 기회를 가지게 되어 시스템을 취약하게 만든다.
+<br><br><br>
+
+
+<!-- 2. 보안 대책 -->
+
+<p>보안 대책</p>
+쿠키의 만료시간은 세션이 지속되는 시간을 고려하여 최소한으로 설정하고 영속적인 쿠키에는 사용자 권한 등급, 
+세션ID 등 중요정보가 포함되지 않도록 한다.
+<br><br><br>
+
+
+<!-- 3. 코드 예제 -->
+
+<p>코드 예제</p>
+쿠키의 만료시간을 1년으로 과도하게 길게 설정하고 있다. 쿠키의 유효기간이 긴 경우 사용자 하드
+디스크에 쿠키가 저장되며 저장된 쿠키는 쉽게 도용될 수 있으므로 취약하다.
+<br><br>
+
+<!-- 3-1. 안전하지 않은 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #F5A9A9 -->
+<!-- 	제목 패딩 : top과 bottom 각각 5픽셀, left와 right 각각 10픽셀 -->
+<!-- 	코드는 <pre><code> 태그 내부에 삽입하며, 코드 색 변경은 <span> 태그를 이용하여 변경 -->
+
+<span style = "background-color:#F5A9A9; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전하지 않은 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#F5A9A9">
+<pre><code>
+Cookie loginCookie = new Cookie("rememberme", "YES");
+<span style = "color:green">//쿠키의 만료시간을 1년으로 과도하게 길게 설정하고 있어 안전하지 않다.</span>
+<span style = "color:red">loginCookie.setMaxAge(60*60*24*365);
+response.addCookie(loginCookie);</span>
+</code></pre>
+</div>
+
+
+<br><br>
+쿠키의 만료시간은 해당 기능에 맞춰 최소로 설정하고 영속적인 쿠키에는 중요 정보가 포함되지 않도록
+한다.
+<br><br>
+
+
+<!-- 3-2. 안전한 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #82E0AA -->
+<!-- 	나머지 사항은 3-1. 안전하지 않은 코드 와 같음 -->
+
+<span style = "background-color:#82E0AA; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전한 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#82E0AA">
+<pre><code>
+Cookie loginCookie = new Cookie("rememberme", "YES");
+<span style = "color:green">//쿠키의 만료시간은 해당 기능에 맞춰 최소로 사용한다.</span>
+<span style = "color:blue">loginCookie.setMaxAge(60*60*24);
+response.addCookie(loginCookie);</span>
+</code></pre>
+</div>
+
+
+</body>
+</html>

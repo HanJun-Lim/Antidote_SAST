@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+	width: 96%;
+	background-color: white;
+	font-size: 14px;
+	font-family: "돋움";
+    padding: 0;
+}
+
+h1 {
+  color: black;
+  text-align: left;
+  font-weight: bold;
+}
+
+p {
+	font-size: 16px;
+	background-color: rgba(210, 210, 210);
+}
+
+pre {
+	display: block;
+	white-space: pre-wrap;
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- 주제목 및 부제목 -->
+<!-- 주 제목은 룰 이름, 부 제목은 "해당 룰이 속한 카테고리 - 세부 카테고리"로 한다. -->
+
+<h1>취약한 암호화 알고리즘 사용</h1>
+보안 기능
+<hr><br>
+
+
+<!-- 1. 개요 -->
+
+<p>개요</p>
+SW 개발자들은 환경설정 파일에 저장된 패스워드를 보호하기 위하여 간단한 인코딩 함수를 이용
+하여 패스워드를 감추는 방법을 사용하기도 한다. 그렇지만 base64와 같은 지나치게 간단한 인코딩
+함수로는 패스워드를 제대로 보호할 수 없다.<br><br>
+정보보호 측면에서 취약하거나 위험한 암호화 알고리즘을 사용해서는 안 된다. 표준화되지 않은 암호
+화 알고리즘을 사용하는 것은 공격자가 알고리즘을 분석하여 무력화시킬 수 있는 가능성을 높일 수도
+있다. 몇몇 오래된 암호화 알고리즘의 경우는 컴퓨터의 성능이 향상됨에 따라 취약해지기도 해서,
+예전에는 해독하는데 오랜 시간이 걸릴 것이라고 예상되던 알고리즘이 며칠이나 몇 시간 내에 해독
+되기도 한다. RC2, RC4, RC5, RC6, MD4, MD5, SHA1, DES 알고리즘이 여기에 해당된다.
+<br><br><br>
+
+
+<!-- 2. 보안 대책 -->
+
+<p>보안 대책</p>
+자신만의 암호화 알고리즘을 개발하는 것은 위험하며, 학계 및 업계에서 이미 검증된 표준화된 알고
+리즘을 사용한다. 기존에 취약하다고 알려진 DES, RC5 등의 암호알고리즘을 대신하여, 3DES, AES,
+SEED 등의 안전한 암호알고리즘으로 대체하여 사용한다. 또한, 업무관련 내용, 개인정보 등에 대한
+암호 알고리즘 적용시, IT보안인증 사무국이 안전성을 확인한 검증필 암호 모듈을 사용해야한다.
+<br><br><br>
+
+
+<!-- 3. 코드 예제 -->
+
+<p>코드 예제</p>
+다음 예제는 취약한 DES 알고리즘으로 암호화하고 있다.
+<br><br>
+
+<!-- 3-1. 안전하지 않은 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #F5A9A9 -->
+<!-- 	제목 패딩 : top과 bottom 각각 5픽셀, left와 right 각각 10픽셀 -->
+<!-- 	코드는 <pre><code> 태그 내부에 삽입하며, 코드 색 변경은 <span> 태그를 이용하여 변경 -->
+
+<span style = "background-color:#F5A9A9; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전하지 않은 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#F5A9A9">
+<pre><code>
+import java.security.*;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+
+public class CryptoUtils {
+	public byte[] encrypt(byte[] msg, Key k) {
+		byte[] rslt = null;
+		
+		try {
+			<span style = "color:green">//키 길이가 짧아 취약한 암호와 알고리즘인 DES를 사용하여 안전하지 않다.</span>
+			<span style = "color:red">Cipher c = Cipher.getInstance("DES");</span>	
+			c.init(Cipher.ENCRYPT_MODE, k);
+			rslt = c.update(msg);
+		}
+</code></pre>
+</div>
+
+
+<br><br>
+아래 코드처럼 안전하다고 알려진 AES 알고리즘 등을 적용해야 한다.
+<br><br>
+
+
+<!-- 3-2. 안전한 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #82E0AA -->
+<!-- 	나머지 사항은 3-1. 안전하지 않은 코드 와 같음 -->
+
+<span style = "background-color:#82E0AA; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전한 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#82E0AA">
+<pre><code>
+import java.security.*;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+
+public class CryptoUtils {
+public byte[] encrypt(byte[] msg, Key k) {
+	byte[] rslt = null;
+	try {
+		<span style = "color:green">//키 길이가 길어 강력한 알고리즘인 AES를 사용하여 안전하다.</span>
+		<span style = "color:blue">Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");</span>
+		c.init(Cipher.ENCRYPT_MODE, k);
+		rslt = c.update(msg);
+	}
+</code></pre>
+</div>
+
+
+
+
+</body>
+</html>

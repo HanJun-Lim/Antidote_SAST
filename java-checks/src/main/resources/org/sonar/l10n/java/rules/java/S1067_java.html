@@ -1,0 +1,16 @@
+<p>The complexity of an expression is defined by the number of <code>&amp;&amp;</code>, <code>||</code> and <code>condition ? ifTrue : ifFalse</code>
+operators it contains.</p>
+<p>A single expression's complexity should not become too high to keep the code readable.</p>
+<h2>Noncompliant Code Example</h2>
+<p>With the default threshold value of 3:</p>
+<pre>
+if (((condition1 &amp;&amp; condition2) || (condition3 &amp;&amp; condition4)) &amp;&amp; condition5) { ... }
+</pre>
+<h2>Compliant Solution</h2>
+<pre>
+if ( (myFirstCondition() || mySecondCondition()) &amp;&amp; myLastCondition()) { ... }
+</pre>
+<h2>Exceptions</h2>
+<p>No issue is reported inside <code>equals</code> methods, because it is common to compare all the fields of a class for equality inside this kind of
+method.</p>
+

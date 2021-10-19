@@ -1,0 +1,13 @@
+{
+  "title": "경쟁조건: 검사 시점과 사용 시점(TOCTOU)",
+  "type": "BUG",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "bad-practice"
+  ],
+  "defaultSeverity": "Minor"
+}

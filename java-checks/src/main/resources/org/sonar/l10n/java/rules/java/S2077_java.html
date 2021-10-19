@@ -1,0 +1,131 @@
+<p>Formatting strings used as SQL queries is security-sensitive. It has led in the past to the following vulnerabilities:</p>
+<ul>
+  <li> <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-9019">CVE-2018-9019</a> </li>
+  <li> <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7318">CVE-2018-7318</a> </li>
+  <li> <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-5611">CVE-2017-5611</a> </li>
+</ul>
+<p>SQL queries often need to use a hardcoded SQL string with a dynamic parameter coming from a user request. Formatting a string to add those
+parameters to the request is a bad practice as it can result in an <a href="https://www.owasp.org/index.php/SQL_Injection">SQL injection</a>. The safe
+way to add parameters to a SQL query is to use SQL binding mechanisms.</p>
+<p>This rule raises an issue when an SQL query is built by formatting Strings, even if there is no injection. This rule does not detect SQL
+injections. The goal is to guide security code reviews and to prevent a common bad practice.</p>
+<p>The following method signatures from Java JDBC, JPA, JDO, Hibernate and Spring are tested: </p>
+<ul>
+  <li> <code>org.hibernate.Session.createQuery</code> </li>
+  <li> <code>org.hibernate.Session.createSQLQuery</code> </li>
+  <li> <code>java.sql.Statement.executeQuery</code> </li>
+  <li> <code>java.sql.Statement.execute</code> </li>
+  <li> <code>java.sql.Statement.executeUpdate</code> </li>
+  <li> <code>java.sql.Statement.executeLargeUpdate</code> </li>
+  <li> <code>java.sql.Statement.addBatch</code> </li>
+  <li> <code>java.sql.Connection.prepareStatement</code> </li>
+  <li> <code>java.sql.Connection.prepareCall</code> </li>
+  <li> <code>java.sql.Connection.nativeSQL</code> </li>
+  <li> <code>javax.persistence.EntityManager.createNativeQuery</code> </li>
+  <li> <code>javax.persistence.EntityManager.createQuery</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.batchUpdate</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.execute</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.query</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.queryForList</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.queryForMap</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.queryForObject</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.queryForRowSet</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.queryForInt</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.queryForLong</code> </li>
+  <li> <code>org.springframework.jdbc.core.JdbcOperations.update</code> </li>
+  <li> <code>org.springframework.jdbc.core.PreparedStatementCreatorFactory.&lt;init&gt;</code> </li>
+  <li> <code>org.springframework.jdbc.core.PreparedStatementCreatorFactory.newPreparedStatementCreator</code> </li>
+  <li> <code>javax.jdo.PersistenceManager.newQuery</code> </li>
+  <li> <code>javax.jdo.Query.setFilter</code> </li>
+  <li> <code>javax.jdo.Query.setGrouping</code> </li>
+</ul>
+<p>If a method is defined in an interface, implementations are also tested. For example this is the case for
+<code>org.springframework.jdbc.core.JdbcOperations</code> , which is usually used as <code>org.springframework.jdbc.core.JdbcTemplate</code>). </p>
+<h2>Ask Yourself Whether</h2>
+<ul>
+  <li> the SQL query is built using string formatting technics, such as concatenating variables. </li>
+  <li> some of the values are coming from an untrusted source and are not sanitized. </li>
+</ul>
+<p>You may be at risk if you answered yes to this question.</p>
+<h2>Recommended Secure Coding Practices</h2>
+<ul>
+  <li> Avoid building queries manually using formatting technics. If you do it anyway, do not include user input in this building process. </li>
+  <li> Use <a href="https://www.owasp.org/index.php/Query_Parameterization_Cheat_Sheet">parameterized queries, prepared statements, or stored
+  procedures</a> whenever possible. </li>
+  <li> You may also use ORM frameworks such as Hibernate which, if used correctly, reduce injection risks. </li>
+  <li> Avoid executing SQL queries containing unsafe input in stored procedures or functions. </li>
+  <li> <a href="https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet">Sanitize</a> every unsafe input. </li>
+</ul>
+<p>You can also reduce the impact of an attack by using a database account with low privileges.</p>
+<h2>Sensitive Code Example</h2>
+<pre>
+public User getUser(Connection con, String user) throws SQLException {
+
+  Statement stmt1 = null;
+  Statement stmt2 = null;
+  PreparedStatement pstmt;
+  try {
+    stmt1 = con.createStatement();
+    ResultSet rs1 = stmt1.executeQuery("GETDATE()"); // No issue; hardcoded query
+
+    stmt2 = con.createStatement();
+    ResultSet rs2 = stmt2.executeQuery("select FNAME, LNAME, SSN " +
+                 "from USERS where UNAME=" + user);  // Sensitive
+
+    pstmt = con.prepareStatement("select FNAME, LNAME, SSN " +
+                 "from USERS where UNAME=" + user);  // Sensitive
+    ResultSet rs3 = pstmt.executeQuery();
+
+    //...
+}
+
+public User getUserHibernate(org.hibernate.Session session, String data) {
+
+  org.hibernate.Query query = session.createQuery(
+            "FROM students where fname = " + data);  // Sensitive
+  // ...
+}
+</pre>
+<h2>Compliant Solution</h2>
+<pre>
+public User getUser(Connection con, String user) throws SQLException {
+
+  Statement stmt1 = null;
+  PreparedStatement pstmt = null;
+  String query = "select FNAME, LNAME, SSN " +
+                 "from USERS where UNAME=?"
+  try {
+    stmt1 = con.createStatement();
+    ResultSet rs1 = stmt1.executeQuery("GETDATE()");
+
+    pstmt = con.prepareStatement(query);
+    pstmt.setString(1, user);  // Good; PreparedStatements escape their inputs.
+    ResultSet rs2 = pstmt.executeQuery();
+
+    //...
+  }
+}
+
+public User getUserHibernate(org.hibernate.Session session, String data) {
+
+  org.hibernate.Query query =  session.createQuery("FROM students where fname = ?");
+  query = query.setParameter(0,data);  // Good; Parameter binding escapes all input
+
+  org.hibernate.Query query2 =  session.createQuery("FROM students where fname = " + data); // Sensitive
+  // ...
+</pre>
+<h2>See</h2>
+<ul>
+  <li> <a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection">OWASP Top 10 2017 Category A1</a> - Injection </li>
+  <li> <a href="http://cwe.mitre.org/data/definitions/89">MITRE, CWE-89</a> - Improper Neutralization of Special Elements used in an SQL Command </li>
+  <li> <a href="http://cwe.mitre.org/data/definitions/564.html">MITRE, CWE-564</a> - SQL Injection: Hibernate </li>
+  <li> <a href="http://cwe.mitre.org/data/definitions/20.html">MITRE, CWE-20</a> - Improper Input Validation </li>
+  <li> <a href="http://cwe.mitre.org/data/definitions/943.html">MITRE, CWE-943</a> - Improper Neutralization of Special Elements in Data Query Logic
+  </li>
+  <li> <a href="https://www.securecoding.cert.org/confluence/x/PgIRAg">CERT, IDS00-J.</a> - Prevent SQL injection </li>
+  <li> <a href="https://www.sans.org/top25-software-errors/#cat1">SANS Top 25</a> - Insecure Interaction Between Components </li>
+  <li> Derived from FindSecBugs rules <a href="http://h3xstream.github.io/find-sec-bugs/bugs.htm#SQL_INJECTION_JPA">Potential SQL/JPQL Injection
+  (JPA)</a>, <a href="http://h3xstream.github.io/find-sec-bugs/bugs.htm#SQL_INJECTION_JDO">Potential SQL/JDOQL Injection (JDO)</a>, <a
+  href="http://h3xstream.github.io/find-sec-bugs/bugs.htm#SQL_INJECTION_HIBERNATE">Potential SQL/HQL Injection (Hibernate)</a> </li>
+</ul>
+

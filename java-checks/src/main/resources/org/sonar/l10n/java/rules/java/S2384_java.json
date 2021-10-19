@@ -1,0 +1,24 @@
+{
+  "title": "Mutable members should not be stored or returned directly",
+  "type": "VULNERABILITY",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "cwe",
+    "unpredictable",
+    "cert"
+  ],
+  "defaultSeverity": "Minor",
+  "ruleSpecification": "RSPEC-2384",
+  "sqKey": "S2384",
+  "scope": "Main",
+  "securityStandards": {
+    "CWE": [
+      375,
+      374
+    ]
+  }
+}

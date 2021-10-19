@@ -1,0 +1,13 @@
+{
+  "title": "신뢰되지 않는 URL 주소로 자동 접속 연결",
+  "type": "SECURITY_HOTSPOT",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "bad-practice"
+  ],
+  "defaultSeverity": "Critical"
+}

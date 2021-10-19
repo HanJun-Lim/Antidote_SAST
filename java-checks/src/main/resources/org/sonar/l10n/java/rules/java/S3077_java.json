@@ -1,0 +1,17 @@
+{
+  "title": "Non-primitive fields should not be \"volatile\"",
+  "type": "BUG",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "20min"
+  },
+  "tags": [
+    "multi-threading",
+    "cert"
+  ],
+  "defaultSeverity": "Minor",
+  "ruleSpecification": "RSPEC-3077",
+  "sqKey": "S3077",
+  "scope": "Main"
+}

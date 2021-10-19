@@ -1,0 +1,17 @@
+{
+  "title": "Reading the Standard Input is security-sensitive",
+  "type": "SECURITY_HOTSPOT",
+  "status": "ready",
+  "tags": [
+    "cwe"
+  ],
+  "defaultSeverity": "Critical",
+  "ruleSpecification": "RSPEC-4829",
+  "sqKey": "S4829",
+  "scope": "Main",
+  "securityStandards": {
+    "CWE": [
+      20
+    ]
+  }
+}

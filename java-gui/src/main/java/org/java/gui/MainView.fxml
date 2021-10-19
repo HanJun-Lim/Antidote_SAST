@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@flat_bee.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.gui.MainViewController">
+   <children>
+      <TabPane fx:id="tabContainer" prefHeight="600.0" prefWidth="800.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab fx:id="selectProjectTab" text="프로젝트 선택">
+               <content>
+                    <fx:include source="selectproject/selectProjectContainer.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               
+                  <!--<AnchorPane fx:id="selectProjectContainer" prefHeight="200.0" prefWidth="200.0" />-->
+               </content>
+            </Tab>
+          <Tab fx:id="selectRulesTab" text="룰 선택">
+               <content>
+               		<fx:include source="selectrules/selectRulesContainer.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               
+                  <!-- <AnchorPane fx:id="selectRulesContainer" prefHeight="200.0" prefWidth="200.0" /> -->
+               </content>
+            </Tab>
+            <Tab fx:id="verifyProjectTab" text="분석 결과">
+               <content>
+               		<fx:include source="verifyproject/verifyProjectContainer.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               
+                  <!-- <AnchorPane fx:id="verifyProjectContainer" prefHeight="200.0" prefWidth="200.0" /> -->
+               </content>
+            </Tab>
+            <Tab fx:id="analysisStatisticsTab" text="분석 통계">
+              <content>
+              		<fx:include source="analysisstatistics/analysisStatisticsContainer.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              
+                <!-- <AnchorPane fx:id="analysisStatisticsContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" /> -->
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

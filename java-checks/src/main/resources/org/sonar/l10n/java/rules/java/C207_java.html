@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+	width: 96%;
+	background-color: white;
+	font-size: 14px;
+	font-family: "돋움";
+    padding: 0;
+}
+
+h1 {
+  color: black;
+  text-align: left;
+  font-weight: bold;
+}
+
+p {
+	font-size: 16px;
+	background-color: rgba(210, 210, 210);
+}
+
+pre {
+	display: block;
+	white-space: pre-wrap;
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- 주제목 및 부제목 -->
+<!-- 주 제목은 룰 이름, 부 제목은 "해당 룰이 속한 카테고리 - 세부 카테고리"로 한다. -->
+
+<h1>하드코드된 비밀번호</h1>
+보안 기능
+<hr><br>
+
+
+<!-- 1. 개요 -->
+
+<p>개요</p>
+프로그램 코드 내부에 하드코드된 패스워드를 포함하고, 이를 이용하여 내부 인증에 사용하거나 외부
+컴포넌트와 통신을 하는 경우, 관리자 정보가 노출될 수 있어 위험하다. 또한, 코드 내부에 하드코드된
+패스워드가 인증실패를 야기하는 경우, 시스템 관리자가 그 실패의 원인을 파악하기 쉽지 않은 단점이
+있다.
+<br><br><br>
+
+
+<!-- 2. 보안 대책 -->
+
+<p>보안 대책</p>
+패스워드는 암호화하여 별도의 파일에 저장하여 사용하고, SW 설치시 사용하는 디폴트 패스워드, 키
+등을 사용하는 대신 “최초-로그인” 모드를 두어 사용자가 직접 패스워드나 키를 입력하도록 설계한다.
+<br><br><br>
+
+
+<!-- 3. 코드 예제 -->
+
+<p>코드 예제</p>
+데이터베이스 연결을 위한 패스워드를 소스코드 내부에 상수 형태로 하드코딩 하는 경우, 접속 정보
+가 노출될 수 있어 위험하다.
+<br><br>
+
+<!-- 3-1. 안전하지 않은 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #F5A9A9 -->
+<!-- 	제목 패딩 : top과 bottom 각각 5픽셀, left와 right 각각 10픽셀 -->
+<!-- 	코드는 <pre><code> 태그 내부에 삽입하며, 코드 색 변경은 <span> 태그를 이용하여 변경 -->
+
+<span style = "background-color:#F5A9A9; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전하지 않은 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#F5A9A9">
+<pre><code>
+public class MemberDAO {
+private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
+private static final String URL = "jdbc:oracle:thin:@192.168.0.3:1521:ORCL";
+private static final String USER = "SCOTT"; // DB ID;
+<span style = "color:green">//DB 패스워드가 소스코드에 평문으로 저장되어 있다.</span>
+<span style = "color:red">private static final String PASS = "SCOTT"; // DB PW;</span>
+……
+
+public Connection getConn() {
+	Connection con = null;
+	try {
+		Class.forName(DRIVER);
+		<span style = "color:red">con = DriverManager.getConnection(URL, USER, PASS);</span>
+		……
+</code></pre>
+</div>
+
+
+<br><br>
+패스워드는 안전한 암호화 방식으로 암호화하여 별도의 분리된 공간(파일)에 저장해야 하며,
+암호화된 패스워드를 사용하기 위해서는 복호화 과정을 거쳐야 한다.
+<br><br>
+
+
+<!-- 3-2. 안전한 코드 -->
+<!-- 	제목 배경 및 테두리 컬러 : #82E0AA -->
+<!-- 	나머지 사항은 3-1. 안전하지 않은 코드 와 같음 -->
+
+<span style = "background-color:#82E0AA; padding-top: 5px; padding-right: 10px; padding-left: 10px; padding-bottom: 5px"> 
+안전한 코드 </span><br>
+<div style ="border:5px solid #F5A9A9; border-color:#82E0AA">
+<pre><code>
+public class MemberDAO {
+private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
+private static final String URL = "jdbc:oracle:thin:@192.168.0.3:1521:ORCL";
+private static final String USER = "SCOTT"; // DB ID
+……
+public Connection getConn() {
+	Connection con = null;
+	try {
+		Class.forName(DRIVER);
+		<span style = "color:green">//암호화된 패스워드를 프로퍼티에서 읽어들어 복화해서 사용해야한다.</span>
+		<span style = "color:blue">String PASS = props.getProperty("EncryptedPswd");
+		byte[] decryptedPswd = cipher.doFinal(PASS.getBytes());
+		PASS = new String(decryptedPswd);</span>
+		con = DriverManager.getConnection(URL, USER, PASS);
+		……
+</code></pre>
+</div>
+
+
+</body>
+</html>
